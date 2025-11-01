@@ -15,9 +15,6 @@ $database = new Database();
 $db = $database->getConnection();
 $promotionModel = new Promotion($db);
 
-$message = '';
-$error = '';
-
 // Xử lý thêm/sửa/xóa
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = sanitize($_POST['action']);
@@ -37,64 +34,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($action === 'create') {
             if ($promotionModel->create()) {
-                $message = 'Thêm khuyến mãi thành công!';
+                setFlashMessage('success', 'Thêm khuyến mãi thành công!');
             } else {
-                $error = 'Có lỗi xảy ra!';
+                setFlashMessage('danger', 'Có lỗi xảy ra!');
             }
         } else {
             $promotionModel->promotion_id = (int)$_POST['promotion_id'];
             if ($promotionModel->update()) {
-                $message = 'Cập nhật khuyến mãi thành công!';
+                setFlashMessage('success', 'Cập nhật khuyến mãi thành công!');
             } else {
-                $error = 'Có lỗi xảy ra!';
+                setFlashMessage('danger', 'Có lỗi xảy ra!');
             }
         }
     } elseif ($action === 'delete') {
         $id = (int)$_POST['promotion_id'];
         if ($promotionModel->delete($id)) {
-            $message = 'Xóa khuyến mãi thành công!';
+            setFlashMessage('success', 'Xóa khuyến mãi thành công!');
         } else {
-            $error = 'Có lỗi xảy ra!';
+            setFlashMessage('danger', 'Có lỗi xảy ra!');
         }
     }
+    redirect($_SERVER['PHP_SELF']);
 }
 
 // Lấy danh sách khuyến mãi
 $promotions = $promotionModel->getAll();
-
-$page_title = 'Quản lý khuyến mãi';
-include 'includes/header.php';
 ?>
-
-<div class="container-fluid">
-    <div class="row">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khuyến mãi - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <div class="d-flex">
         <?php include 'includes/sidebar.php'; ?>
-        
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2"><i class="fas fa-tags"></i> Quản lý khuyến mãi</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPromotionModal">
-                    <i class="fas fa-plus"></i> Thêm khuyến mãi
-                </button>
-            </div>
-
-            <?php if ($message): ?>
-                <div class="alert alert-success alert-dismissible fade show">
-                    <?php echo $message; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="flex-grow-1">
+            <?php include 'includes/navbar.php'; ?>
+            <div class="container-fluid p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Quản lý khuyến mãi</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPromotionModal">
+                        <i class="fas fa-plus me-2"></i>Thêm khuyến mãi
+                    </button>
                 </div>
-            <?php endif; ?>
-
-            <?php if ($error): ?>
-                <div class="alert alert-danger alert-dismissible fade show">
-                    <?php echo $error; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -166,12 +156,12 @@ include 'includes/header.php';
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
-</div>
 
 <!-- Add/Edit Promotion Modal -->
 <div class="modal fade" id="addPromotionModal" tabindex="-1">
@@ -295,4 +285,6 @@ document.getElementById('addPromotionModal').addEventListener('hidden.bs.modal',
 });
 </script>
 
-<?php include '../includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

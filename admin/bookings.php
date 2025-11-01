@@ -105,47 +105,82 @@ if (isset($_POST['update_status'])) {
                                             </button>
                                         </td>
                                     </tr>
-                                    <div class="modal fade" id="modal<?php echo $booking['booking_id']; ?>" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Chi tiết lịch hẹn #<?php echo $booking['booking_id']; ?></h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <table class="table table-borderless">
-                                                        <tr><th>Khách hàng:</th><td><?php echo htmlspecialchars($booking['customer_name']); ?></td></tr>
-                                                        <tr><th>Điện thoại:</th><td><?php echo htmlspecialchars($booking['customer_phone']); ?></td></tr>
-                                                        <tr><th>Dịch vụ:</th><td><?php echo htmlspecialchars($booking['service_name']); ?></td></tr>
-                                                        <tr><th>Nhân viên:</th><td><?php echo htmlspecialchars($booking['staff_name']); ?></td></tr>
-                                                        <tr><th>Ngày:</th><td><?php echo formatDate($booking['booking_date']); ?></td></tr>
-                                                        <tr><th>Giờ:</th><td><?php echo formatTime($booking['booking_time']); ?></td></tr>
-                                                        <tr><th>Giá:</th><td><?php echo formatCurrency($booking['total_price']); ?></td></tr>
-                                                        <?php if ($booking['notes']): ?>
-                                                        <tr><th>Ghi chú:</th><td><?php echo htmlspecialchars($booking['notes']); ?></td></tr>
-                                                        <?php endif; ?>
-                                                    </table>
-                                                    <form method="POST" action="">
-                                                        <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Cập nhật trạng thái:</label>
-                                                            <select class="form-select" name="status" required>
-                                                                <option value="pending" <?php echo $booking['status'] == 'pending' ? 'selected' : ''; ?>>Chờ xác nhận</option>
-                                                                <option value="confirmed" <?php echo $booking['status'] == 'confirmed' ? 'selected' : ''; ?>>Đã xác nhận</option>
-                                                                <option value="completed" <?php echo $booking['status'] == 'completed' ? 'selected' : ''; ?>>Hoàn thành</option>
-                                                                <option value="cancelled" <?php echo $booking['status'] == 'cancelled' ? 'selected' : ''; ?>>Đã hủy</option>
-                                                            </select>
-                                                        </div>
-                                                        <button type="submit" name="update_status" class="btn btn-primary">Cập nhật</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Modals -->
+                        <?php foreach ($bookings as $booking): ?>
+                        <div class="modal fade" id="modal<?php echo $booking['booking_id']; ?>" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title">Chi tiết lịch hẹn #<?php echo $booking['booking_id']; ?></h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted mb-3">Thông tin khách hàng</h6>
+                                                <p><strong>Họ tên:</strong> <?php echo htmlspecialchars($booking['customer_name']); ?></p>
+                                                <p><strong>Điện thoại:</strong> <?php echo htmlspecialchars($booking['customer_phone']); ?></p>
+                                                <p><strong>Email:</strong> <?php echo htmlspecialchars($booking['customer_email'] ?? 'N/A'); ?></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="text-muted mb-3">Thông tin dịch vụ</h6>
+                                                <p><strong>Dịch vụ:</strong> <?php echo htmlspecialchars($booking['service_name']); ?></p>
+                                                <p><strong>Nhân viên:</strong> <?php echo htmlspecialchars($booking['staff_name']); ?></p>
+                                                <p><strong>Thời gian:</strong> <?php echo $booking['duration']; ?> phút</p>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <p><strong>Ngày hẹn:</strong> <?php echo formatDate($booking['booking_date']); ?></p>
+                                                <p><strong>Giờ hẹn:</strong> <?php echo formatTime($booking['booking_time']); ?></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Tổng giá:</strong> <span class="text-primary fw-bold"><?php echo formatCurrency($booking['total_price']); ?></span></p>
+                                                <p><strong>Trạng thái:</strong> 
+                                                    <span class="badge bg-<?php echo getBookingStatusBadge($booking['status']); ?>">
+                                                        <?php echo getBookingStatusText($booking['status']); ?>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <?php if ($booking['notes']): ?>
+                                        <div class="alert alert-info">
+                                            <strong>Ghi chú:</strong> <?php echo nl2br(htmlspecialchars($booking['notes'])); ?>
+                                        </div>
+                                        <?php endif; ?>
+                                        
+                                        <hr>
+                                        
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold">Cập nhật trạng thái:</label>
+                                                <select class="form-select" name="status" required>
+                                                    <option value="pending" <?php echo $booking['status'] == 'pending' ? 'selected' : ''; ?>>Chờ xác nhận</option>
+                                                    <option value="confirmed" <?php echo $booking['status'] == 'confirmed' ? 'selected' : ''; ?>>Đã xác nhận</option>
+                                                    <option value="completed" <?php echo $booking['status'] == 'completed' ? 'selected' : ''; ?>>Hoàn thành</option>
+                                                    <option value="cancelled" <?php echo $booking['status'] == 'cancelled' ? 'selected' : ''; ?>>Đã hủy</option>
+                                                    <option value="no_show" <?php echo $booking['status'] == 'no_show' ? 'selected' : ''; ?>>Không đến</option>
+                                                </select>
+                                            </div>
+                                            <div class="d-flex justify-content-end gap-2">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                <button type="submit" name="update_status" class="btn btn-primary">
+                                                    <i class="fas fa-save me-1"></i>Cập nhật
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+
                         <?php if ($total_pages > 1): ?>
                         <nav>
                             <ul class="pagination">

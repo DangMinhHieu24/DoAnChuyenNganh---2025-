@@ -60,8 +60,8 @@ $staff_list = $staffModel->getAllStaff(null);
                                         <td><?php echo htmlspecialchars($staff['phone']); ?></td>
                                         <td><?php echo htmlspecialchars($staff['email']); ?></td>
                                         <td><?php echo htmlspecialchars($staff['specialization']); ?></td>
-                                        <td><?php echo $staff['rating']; ?> ⭐</td>
-                                        <td><?php echo $staff['total_bookings']; ?></td>
+                                        <td><?php echo number_format($staff['rating'] ?? 0, 1); ?> ⭐</td>
+                                        <td><?php echo number_format($staff['total_bookings'] ?? 0); ?></td>
                                         <td>
                                             <span class="badge bg-<?php echo $staff['status'] == 'active' ? 'success' : 'secondary'; ?>">
                                                 <?php echo $staff['status'] == 'active' ? 'Hoạt động' : 'Nghỉ'; ?>

@@ -53,15 +53,10 @@
         </li>
     </ul>
     <hr class="text-white">
-    <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-            <img src="<?php echo getAvatarUrl($_SESSION['avatar'] ?? null); ?>" alt="" width="32" height="32" class="rounded-circle me-2">
-            <strong><?php echo htmlspecialchars($_SESSION['full_name']); ?></strong>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/pages/profile.php">Tài khoản</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/auth/logout.php">Đăng xuất</a></li>
-        </ul>
+    <div class="p-3">
+        <div class="text-center text-white-50 small">
+            <p class="mb-1">© <?php echo date('Y'); ?> <?php echo SITE_NAME; ?></p>
+            <p class="mb-0">Version 1.0</p>
+        </div>
     </div>
 </div>
