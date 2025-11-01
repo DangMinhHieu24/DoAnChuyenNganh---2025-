@@ -49,22 +49,47 @@ $page_title = 'Chi tiết lịch hẹn #' . $booking_id;
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm" style="z-index: 1030;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="<?php echo BASE_URL; ?>">
+            <a class="navbar-brand fw-bold text-primary" href="<?php echo BASE_URL; ?>">
                 <i class="fas fa-cut"></i> <?php echo SITE_NAME; ?>
             </a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">
-                            <i class="fas fa-arrow-left"></i> Quay lại Dashboard
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item me-3">
+                        <a class="nav-link fw-semibold text-dark" href="dashboard.php">
+                            <i class="fas fa-arrow-left text-primary"></i> Quay lại Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo BASE_URL; ?>/auth/logout.php">
-                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="<?php echo getAvatarUrl($_SESSION['avatar'] ?? null); ?>" alt="Avatar" width="36" height="36" class="rounded-circle me-2" style="border: 3px solid #0d6efd;">
+                            <strong><?php echo htmlspecialchars($_SESSION['full_name']); ?></strong>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="userDropdown" style="min-width: 220px; z-index: 9999;">
+                            <li class="px-3 py-2 border-bottom">
+                                <small class="text-muted">Nhân viên</small>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="<?php echo BASE_URL; ?>/pages/profile.php">
+                                    <i class="fas fa-user-circle text-primary me-2"></i> Hồ sơ cá nhân
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="<?php echo BASE_URL; ?>/pages/change-password.php">
+                                    <i class="fas fa-key text-warning me-2"></i> Đổi mật khẩu
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <a class="dropdown-item py-2 text-danger fw-semibold" href="<?php echo BASE_URL; ?>/auth/logout.php">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
