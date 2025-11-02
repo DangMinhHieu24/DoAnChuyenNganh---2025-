@@ -11,6 +11,19 @@ $database = new Database();
 $db = $database->getConnection();
 $userModel = new User($db);
 
+// Xử lý khóa/mở khóa tài khoản
+if (isset($_POST['toggle_status'])) {
+    $user_id = (int)$_POST['user_id'];
+    $new_status = sanitize($_POST['new_status']);
+    
+    if ($userModel->updateStatus($user_id, $new_status)) {
+        setFlashMessage('success', 'Cập nhật trạng thái thành công');
+    } else {
+        setFlashMessage('danger', 'Có lỗi xảy ra');
+    }
+    redirect($_SERVER['PHP_SELF']);
+}
+
 $customers = $userModel->getAllUsers('customer', null);
 ?>
 <!DOCTYPE html>
@@ -46,6 +59,7 @@ $customers = $userModel->getAllUsers('customer', null);
                                         <th>Địa chỉ</th>
                                         <th>Ngày đăng ký</th>
                                         <th>Trạng thái</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,6 +78,21 @@ $customers = $userModel->getAllUsers('customer', null);
                                             <span class="badge bg-<?php echo $customer['status'] == 'active' ? 'success' : 'secondary'; ?>">
                                                 <?php echo $customer['status'] == 'active' ? 'Hoạt động' : 'Khóa'; ?>
                                             </span>
+                                        </td>
+                                        <td>
+                                            <form method="POST" style="display:inline;" onsubmit="return confirm('Xác nhận thay đổi trạng thái tài khoản?')">
+                                                <input type="hidden" name="user_id" value="<?php echo $customer['user_id']; ?>">
+                                                <input type="hidden" name="new_status" value="<?php echo $customer['status'] == 'active' ? 'inactive' : 'active'; ?>">
+                                                <?php if ($customer['status'] == 'active'): ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-danger" title="Khóa tài khoản">
+                                                        <i class="fas fa-lock"></i>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-success" title="Mở khóa">
+                                                        <i class="fas fa-unlock"></i>
+                                                    </button>
+                                                <?php endif; ?>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

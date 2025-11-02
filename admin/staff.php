@@ -11,6 +11,19 @@ $database = new Database();
 $db = $database->getConnection();
 $staffModel = new Staff($db);
 
+// Xử lý toggle status
+if (isset($_POST['toggle_status'])) {
+    $staff_id = (int)$_POST['staff_id'];
+    $new_status = sanitize($_POST['new_status']);
+    
+    if ($staffModel->updateStatus($staff_id, $new_status)) {
+        setFlashMessage('success', 'Cập nhật trạng thái thành công');
+    } else {
+        setFlashMessage('danger', 'Có lỗi xảy ra');
+    }
+    redirect($_SERVER['PHP_SELF']);
+}
+
 $staff_list = $staffModel->getAllStaff(null);
 ?>
 <!DOCTYPE html>
@@ -47,6 +60,7 @@ $staff_list = $staffModel->getAllStaff(null);
                                         <th>Đánh giá</th>
                                         <th>Số lịch hẹn</th>
                                         <th>Trạng thái</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,6 +80,21 @@ $staff_list = $staffModel->getAllStaff(null);
                                             <span class="badge bg-<?php echo $staff['status'] == 'active' ? 'success' : 'secondary'; ?>">
                                                 <?php echo $staff['status'] == 'active' ? 'Hoạt động' : 'Nghỉ'; ?>
                                             </span>
+                                        </td>
+                                        <td>
+                                            <form method="POST" style="display:inline;" onsubmit="return confirm('Xác nhận thay đổi trạng thái?')">
+                                                <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
+                                                <input type="hidden" name="new_status" value="<?php echo $staff['status'] == 'active' ? 'inactive' : 'active'; ?>">
+                                                <?php if ($staff['status'] == 'active'): ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-warning" title="Cho nghỉ">
+                                                        <i class="fas fa-pause"></i>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-success" title="Kích hoạt">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                <?php endif; ?>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

@@ -58,22 +58,22 @@ if (isset($_POST['update_status'])) {
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="btn-group" role="group">
-                                <a href="?status=" class="btn btn-outline-primary <?php echo !$status_filter ? 'active' : ''; ?>">Tất cả (<?php echo $bookingModel->countBookings(); ?>)</a>
-                                <a href="?status=pending" class="btn btn-outline-warning <?php echo $status_filter == 'pending' ? 'active' : ''; ?>">Chờ xác nhận</a>
-                                <a href="?status=confirmed" class="btn btn-outline-info <?php echo $status_filter == 'confirmed' ? 'active' : ''; ?>">Đã xác nhận</a>
-                                <a href="?status=completed" class="btn btn-outline-success <?php echo $status_filter == 'completed' ? 'active' : ''; ?>">Hoàn thành</a>
-                                <a href="?status=cancelled" class="btn btn-outline-danger <?php echo $status_filter == 'cancelled' ? 'active' : ''; ?>">Đã hủy</a>
+                                <a href="bookings.php" class="btn btn-sm <?php echo !$status_filter ? 'btn-primary' : 'btn-outline-primary'; ?>">Tất cả</a>
+                                <a href="?status=pending" class="btn btn-sm <?php echo $status_filter == 'pending' ? 'btn-warning' : 'btn-outline-warning'; ?>">Chờ xác nhận</a>
+                                <a href="?status=confirmed" class="btn btn-sm <?php echo $status_filter == 'confirmed' ? 'btn-info' : 'btn-outline-info'; ?>">Đã xác nhận</a>
+                                <a href="?status=completed" class="btn btn-sm <?php echo $status_filter == 'completed' ? 'btn-success' : 'btn-outline-success'; ?>">Hoàn thành</a>
+                                <a href="?status=cancelled" class="btn btn-sm <?php echo $status_filter == 'cancelled' ? 'btn-danger' : 'btn-outline-danger'; ?>">Đã hủy</a>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Mã</th>
+                                        <th>ID</th>
                                         <th>Khách hàng</th>
                                         <th>Dịch vụ</th>
                                         <th>Nhân viên</th>
-                                        <th>Ngày & Giờ</th>
+                                        <th>Thời gian</th>
                                         <th>Giá</th>
                                         <th>Trạng thái</th>
                                         <th>Thao tác</th>
@@ -100,7 +100,19 @@ if (isset($_POST['update_status'])) {
                                             </span>
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modal<?php echo $booking['booking_id']; ?>">
+                                            <button class="btn btn-sm btn-info view-detail-btn" 
+                                                    onclick="openModal(<?php echo $booking['booking_id']; ?>, 
+                                                            '<?php echo addslashes(htmlspecialchars($booking['customer_name'])); ?>', 
+                                                            '<?php echo htmlspecialchars($booking['customer_phone']); ?>', 
+                                                            '<?php echo htmlspecialchars($booking['customer_email'] ?? 'N/A'); ?>', 
+                                                            '<?php echo addslashes(htmlspecialchars($booking['service_name'])); ?>', 
+                                                            '<?php echo addslashes(htmlspecialchars($booking['staff_name'])); ?>', 
+                                                            '<?php echo $booking['duration']; ?>', 
+                                                            '<?php echo formatDate($booking['booking_date']); ?>', 
+                                                            '<?php echo formatTime($booking['booking_time']); ?>', 
+                                                            '<?php echo formatCurrency($booking['total_price']); ?>', 
+                                                            '<?php echo $booking['status']; ?>', 
+                                                            '<?php echo addslashes(htmlspecialchars($booking['notes'] ?? '')); ?>')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                         </td>
@@ -109,77 +121,6 @@ if (isset($_POST['update_status'])) {
                                 </tbody>
                             </table>
                         </div>
-
-                        <!-- Modals -->
-                        <?php foreach ($bookings as $booking): ?>
-                        <div class="modal fade" id="modal<?php echo $booking['booking_id']; ?>" tabindex="-1">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-primary text-white">
-                                        <h5 class="modal-title">Chi tiết lịch hẹn #<?php echo $booking['booking_id']; ?></h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <h6 class="text-muted mb-3">Thông tin khách hàng</h6>
-                                                <p><strong>Họ tên:</strong> <?php echo htmlspecialchars($booking['customer_name']); ?></p>
-                                                <p><strong>Điện thoại:</strong> <?php echo htmlspecialchars($booking['customer_phone']); ?></p>
-                                                <p><strong>Email:</strong> <?php echo htmlspecialchars($booking['customer_email'] ?? 'N/A'); ?></p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h6 class="text-muted mb-3">Thông tin dịch vụ</h6>
-                                                <p><strong>Dịch vụ:</strong> <?php echo htmlspecialchars($booking['service_name']); ?></p>
-                                                <p><strong>Nhân viên:</strong> <?php echo htmlspecialchars($booking['staff_name']); ?></p>
-                                                <p><strong>Thời gian:</strong> <?php echo $booking['duration']; ?> phút</p>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <p><strong>Ngày hẹn:</strong> <?php echo formatDate($booking['booking_date']); ?></p>
-                                                <p><strong>Giờ hẹn:</strong> <?php echo formatTime($booking['booking_time']); ?></p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p><strong>Tổng giá:</strong> <span class="text-primary fw-bold"><?php echo formatCurrency($booking['total_price']); ?></span></p>
-                                                <p><strong>Trạng thái:</strong> 
-                                                    <span class="badge bg-<?php echo getBookingStatusBadge($booking['status']); ?>">
-                                                        <?php echo getBookingStatusText($booking['status']); ?>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <?php if ($booking['notes']): ?>
-                                        <div class="alert alert-info">
-                                            <strong>Ghi chú:</strong> <?php echo nl2br(htmlspecialchars($booking['notes'])); ?>
-                                        </div>
-                                        <?php endif; ?>
-                                        
-                                        <hr>
-                                        
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="booking_id" value="<?php echo $booking['booking_id']; ?>">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Cập nhật trạng thái:</label>
-                                                <select class="form-select" name="status" required>
-                                                    <option value="pending" <?php echo $booking['status'] == 'pending' ? 'selected' : ''; ?>>Chờ xác nhận</option>
-                                                    <option value="confirmed" <?php echo $booking['status'] == 'confirmed' ? 'selected' : ''; ?>>Đã xác nhận</option>
-                                                    <option value="completed" <?php echo $booking['status'] == 'completed' ? 'selected' : ''; ?>>Hoàn thành</option>
-                                                    <option value="cancelled" <?php echo $booking['status'] == 'cancelled' ? 'selected' : ''; ?>>Đã hủy</option>
-                                                    <option value="no_show" <?php echo $booking['status'] == 'no_show' ? 'selected' : ''; ?>>Không đến</option>
-                                                </select>
-                                            </div>
-                                            <div class="d-flex justify-content-end gap-2">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                <button type="submit" name="update_status" class="btn btn-primary">
-                                                    <i class="fas fa-save me-1"></i>Cập nhật
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
 
                         <?php if ($total_pages > 1): ?>
                         <nav>
@@ -197,6 +138,101 @@ if (isset($_POST['update_status'])) {
             </div>
         </div>
     </div>
+
+    <!-- Modal Chi tiết -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">Chi tiết lịch hẹn</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Thông tin khách hàng</h6>
+                            <p><strong>Họ tên:</strong> <span id="customerName"></span></p>
+                            <p><strong>Điện thoại:</strong> <span id="customerPhone"></span></p>
+                            <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-3">Thông tin dịch vụ</h6>
+                            <p><strong>Dịch vụ:</strong> <span id="serviceName"></span></p>
+                            <p><strong>Nhân viên:</strong> <span id="staffName"></span></p>
+                            <p><strong>Thời gian:</strong> <span id="duration"></span> phút</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Ngày hẹn:</strong> <span id="bookingDate"></span></p>
+                            <p><strong>Giờ hẹn:</strong> <span id="bookingTime"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Tổng giá:</strong> <span class="text-primary fw-bold" id="totalPrice"></span></p>
+                            <p><strong>Trạng thái:</strong> <span id="statusBadge"></span></p>
+                        </div>
+                    </div>
+                    <div id="notesSection"></div>
+                    <hr>
+                    <form method="POST" id="statusForm">
+                        <input type="hidden" name="booking_id" id="bookingIdInput">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Cập nhật trạng thái:</label>
+                            <select class="form-select" name="status" id="statusSelect" required>
+                                <option value="pending">Chờ xác nhận</option>
+                                <option value="confirmed">Đã xác nhận</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="cancelled">Đã hủy</option>
+                                <option value="no_show">Không đến</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" name="update_status" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Cập nhật
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    var detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+    
+    function openModal(id, customer, phone, email, service, staff, duration, date, time, price, status, notes) {
+        document.getElementById('modalTitle').textContent = 'Chi tiết lịch hẹn #' + id;
+        document.getElementById('customerName').textContent = customer;
+        document.getElementById('customerPhone').textContent = phone;
+        document.getElementById('customerEmail').textContent = email;
+        document.getElementById('serviceName').textContent = service;
+        document.getElementById('staffName').textContent = staff;
+        document.getElementById('duration').textContent = duration;
+        document.getElementById('bookingDate').textContent = date;
+        document.getElementById('bookingTime').textContent = time;
+        document.getElementById('totalPrice').textContent = price;
+        document.getElementById('bookingIdInput').value = id;
+        document.getElementById('statusSelect').value = status;
+        
+        var badges = {
+            'pending': '<span class="badge bg-warning">Chờ xác nhận</span>',
+            'confirmed': '<span class="badge bg-info">Đã xác nhận</span>',
+            'completed': '<span class="badge bg-success">Hoàn thành</span>',
+            'cancelled': '<span class="badge bg-danger">Đã hủy</span>',
+            'no_show': '<span class="badge bg-secondary">Không đến</span>'
+        };
+        document.getElementById('statusBadge').innerHTML = badges[status] || status;
+        
+        if (notes) {
+            document.getElementById('notesSection').innerHTML = '<div class="alert alert-info"><strong>Ghi chú:</strong> ' + notes + '</div>';
+        } else {
+            document.getElementById('notesSection').innerHTML = '';
+        }
+        
+        detailModal.show();
+    }
+    </script>
 </body>
 </html>

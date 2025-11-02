@@ -27,6 +27,34 @@ if (isset($_POST['add_category'])) {
     }
     redirect($_SERVER['PHP_SELF']);
 }
+
+if (isset($_POST['edit_category'])) {
+    $categoryModel->category_id = (int)$_POST['category_id'];
+    $categoryModel->category_name = sanitize($_POST['category_name']);
+    $categoryModel->description = sanitize($_POST['description']);
+    $categoryModel->icon = sanitize($_POST['icon']);
+    $categoryModel->display_order = (int)$_POST['display_order'];
+    $categoryModel->status = sanitize($_POST['status']);
+    
+    if ($categoryModel->update()) {
+        setFlashMessage('success', 'Cập nhật danh mục thành công');
+    } else {
+        setFlashMessage('danger', 'Có lỗi xảy ra');
+    }
+    redirect($_SERVER['PHP_SELF']);
+}
+
+if (isset($_POST['toggle_status'])) {
+    $category_id = (int)$_POST['category_id'];
+    $new_status = sanitize($_POST['new_status']);
+    
+    if ($categoryModel->updateStatus($category_id, $new_status)) {
+        setFlashMessage('success', 'Cập nhật trạng thái thành công');
+    } else {
+        setFlashMessage('danger', 'Có lỗi xảy ra');
+    }
+    redirect($_SERVER['PHP_SELF']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -62,6 +90,7 @@ if (isset($_POST['add_category'])) {
                                         <th>Mô tả</th>
                                         <th>Thứ tự</th>
                                         <th>Trạng thái</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,6 +105,24 @@ if (isset($_POST['add_category'])) {
                                             <span class="badge bg-<?php echo $category['status'] == 'active' ? 'success' : 'secondary'; ?>">
                                                 <?php echo $category['status'] == 'active' ? 'Hoạt động' : 'Tạm dừng'; ?>
                                             </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $category['category_id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form method="POST" style="display:inline;" onsubmit="return confirm('Xác nhận thay đổi trạng thái?')">
+                                                <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
+                                                <input type="hidden" name="new_status" value="<?php echo $category['status'] == 'active' ? 'inactive' : 'active'; ?>">
+                                                <?php if ($category['status'] == 'active'): ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-secondary" title="Tạm dừng">
+                                                        <i class="fas fa-pause"></i>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <button type="submit" name="toggle_status" class="btn btn-sm btn-success" title="Kích hoạt">
+                                                        <i class="fas fa-play"></i>
+                                                    </button>
+                                                <?php endif; ?>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -122,6 +169,52 @@ if (isset($_POST['add_category'])) {
             </div>
         </div>
     </div>
+
+    <!-- Edit Modals -->
+    <?php foreach ($categories as $category): ?>
+    <div class="modal fade" id="editModal<?php echo $category['category_id']; ?>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="">
+                    <input type="hidden" name="category_id" value="<?php echo $category['category_id']; ?>">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sửa danh mục</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tên danh mục</label>
+                            <input type="text" class="form-control" name="category_name" value="<?php echo htmlspecialchars($category['category_name']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả</label>
+                            <textarea class="form-control" name="description" rows="2"><?php echo htmlspecialchars($category['description']); ?></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Icon (Font Awesome class)</label>
+                            <input type="text" class="form-control" name="icon" value="<?php echo htmlspecialchars($category['icon']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Thứ tự hiển thị</label>
+                            <input type="number" class="form-control" name="display_order" value="<?php echo $category['display_order']; ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Trạng thái</label>
+                            <select class="form-select" name="status">
+                                <option value="active" <?php echo $category['status'] == 'active' ? 'selected' : ''; ?>>Hoạt động</option>
+                                <option value="inactive" <?php echo $category['status'] == 'inactive' ? 'selected' : ''; ?>>Tạm dừng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" name="edit_category" class="btn btn-warning">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

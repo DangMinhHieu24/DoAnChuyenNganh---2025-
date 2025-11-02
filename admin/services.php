@@ -38,6 +38,27 @@ if (isset($_POST['add_service'])) {
     redirect($_SERVER['PHP_SELF']);
 }
 
+if (isset($_POST['edit_service'])) {
+    $serviceModel->service_id = (int)$_POST['service_id'];
+    $serviceModel->category_id = (int)$_POST['category_id'];
+    $serviceModel->service_name = sanitize($_POST['service_name']);
+    $serviceModel->description = sanitize($_POST['description']);
+    $serviceModel->price = (float)$_POST['price'];
+    $serviceModel->duration = (int)$_POST['duration'];
+    $serviceModel->status = sanitize($_POST['status']);
+    
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $serviceModel->image = uploadFile($_FILES['image'], 'services');
+    }
+    
+    if ($serviceModel->update()) {
+        setFlashMessage('success', 'Cập nhật dịch vụ thành công');
+    } else {
+        setFlashMessage('danger', 'Có lỗi xảy ra');
+    }
+    redirect($_SERVER['PHP_SELF']);
+}
+
 if (isset($_POST['delete_service'])) {
     $service_id = (int)$_POST['service_id'];
     if ($serviceModel->delete($service_id)) {
@@ -103,6 +124,9 @@ if (isset($_POST['delete_service'])) {
                                             </span>
                                         </td>
                                         <td>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $service['service_id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
                                             <form method="POST" action="" style="display:inline;" onsubmit="return confirm('Xác nhận xóa?')">
                                                 <input type="hidden" name="service_id" value="<?php echo $service['service_id']; ?>">
                                                 <button type="submit" name="delete_service" class="btn btn-sm btn-danger">
@@ -177,6 +201,70 @@ if (isset($_POST['delete_service'])) {
             </div>
         </div>
     </div>
+
+    <!-- Edit Modals -->
+    <?php foreach ($services as $service): ?>
+    <div class="modal fade" id="editModal<?php echo $service['service_id']; ?>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <input type="hidden" name="service_id" value="<?php echo $service['service_id']; ?>">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sửa dịch vụ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục</label>
+                            <select class="form-select" name="category_id" required>
+                                <?php foreach ($categories as $cat): ?>
+                                <option value="<?php echo $cat['category_id']; ?>" <?php echo $cat['category_id'] == $service['category_id'] ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($cat['category_name']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên dịch vụ</label>
+                            <input type="text" class="form-control" name="service_name" value="<?php echo htmlspecialchars($service['service_name']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả</label>
+                            <textarea class="form-control" name="description" rows="3"><?php echo htmlspecialchars($service['description']); ?></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Giá (VNĐ)</label>
+                                <input type="number" class="form-control" name="price" value="<?php echo $service['price']; ?>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Thời gian (phút)</label>
+                                <input type="number" class="form-control" name="duration" value="<?php echo $service['duration']; ?>" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hình ảnh hiện tại</label><br>
+                            <img src="<?php echo getServiceImageUrl($service['image']); ?>" alt="" width="100" class="rounded mb-2">
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-muted">Để trống nếu không muốn đổi ảnh</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Trạng thái</label>
+                            <select class="form-select" name="status">
+                                <option value="active" <?php echo $service['status'] == 'active' ? 'selected' : ''; ?>>Hoạt động</option>
+                                <option value="inactive" <?php echo $service['status'] == 'inactive' ? 'selected' : ''; ?>>Tạm dừng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" name="edit_service" class="btn btn-warning">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
