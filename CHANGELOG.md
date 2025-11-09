@@ -1,5 +1,73 @@
 # CHANGELOG - Lịch sử thay đổi
 
+## [Version 1.1] - 2025-11-09
+
+### ✨ Cập nhật thông tin tài khoản
+
+#### Tài khoản demo mới
+**⚠️ Tất cả tài khoản đều dùng password: `admin123`**
+
+- **Admin:** adminHieu (Đặng Minh Hiếu)
+  - Email: dminhhieu2408@gmail.com
+  - SĐT: 0976985305
+  - Password: `admin123`
+  
+- **Khách hàng 1:** Dangthiminhngoc (Đặng Thị Minh Ngọc)
+  - Email: DangThiMinhNgoc@gmail.com
+  - Password: `admin123`
+  
+- **Khách hàng 2:** Nguyenthikimngan (Nguyễn Thị Kim Ngân)
+  - Email: NguyenThiKimNgan@gmail.com
+  - Password: `admin123`
+  
+- **Nhân viên 1:** Lethichau (Lê Thị Châu)
+  - Email: LeThiChau@gmail.com
+  - Chuyên môn: Cắt tóc, Nhuộm tóc
+  - Password: `admin123`
+  
+- **Nhân viên 2:** Phamvanduoc (Phạm Văn Được)
+  - Email: PhamVanDuoc@gmail.com
+  - Chuyên môn: Uốn tóc, Duỗi tóc
+  - Password: `admin123`
+  
+- **Nhân viên 3:** Hoangthiem (Hoàng Thị Em)
+  - Email: HoangThiEm@gmail.com
+  - Chuyên môn: Chăm sóc da, Massage
+  - Password: `admin123`
+
+#### Cập nhật tài liệu
+- ✅ Cập nhật README.md với thông tin tài khoản mới
+- ✅ Cập nhật INSTALL.md với hướng dẫn đăng nhập mới
+- ✅ Cập nhật database/salon_booking.sql với data mới
+
+#### Cải tiến giao diện trang chủ
+- ✅ Thêm hero section với stats (1000+ khách, 50+ dịch vụ, 4.9⭐)
+- ✅ Thêm testimonials section với 3 đánh giá khách hàng
+- ✅ Cải thiện responsive layout cho categories
+- ✅ Thêm CSS animations (floating, pulse effects)
+- ✅ Tạo file `assets/css/homepage-improvements.css`
+
+#### Quản lý ảnh dịch vụ
+- ✅ Cập nhật 18 dịch vụ với ảnh đầy đủ
+- ✅ 9 dịch vụ đầu: Sử dụng ảnh local (uploads/services/)
+- ✅ 9 dịch vụ còn lại: Sử dụng Unsplash URLs
+- ✅ Tất cả dịch vụ có mô tả chi tiết
+
+#### Files đã cập nhật
+- `database/salon_booking.sql` - Cập nhật users và services data
+- `README.md` - Cập nhật thông tin tài khoản demo
+- `INSTALL.md` - Cập nhật hướng dẫn đăng nhập
+- `index.php` - Trang chủ cải tiến với stats và testimonials
+- `assets/css/homepage-improvements.css` - CSS mới cho trang chủ
+
+#### Files đã xóa
+- `index-old-backup.php` - Backup trang chủ cũ
+- `database/salon_booking_old_backup.sql` - Backup database cũ
+- `database/HUONG_DAN_IMPORT.txt` - File hướng dẫn tạm thời
+- `assets/css/improvements.css` - File CSS cũ
+
+---
+
 ## [Version 1.0] - 2025-11-01
 
 ### ✨ Tính năng mới

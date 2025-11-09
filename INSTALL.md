@@ -51,21 +51,49 @@ private $password = "";              // Password MySQL (mặc định trống)
 ## Bước 8: Đăng Nhập
 Sử dụng các tài khoản demo:
 
-### Admin (Quản trị viên)
+**⚠️ LƯU Ý:** Tất cả tài khoản đều dùng password: **`admin123`**
+
+### 🔐 Admin (Quản trị viên)
 - **URL:** http://localhost/Website_DatLich/auth/login.php
-- **Username:** `admin`
+- **Username:** `adminHieu`
+- **Email:** dminhhieu2408@gmail.com
 - **Password:** `admin123`
-- **Quyền:** Toàn quyền quản trị
+- **Họ tên:** Đặng Minh Hiếu
+- **Quyền:** Toàn quyền quản trị hệ thống
 
-### Khách hàng
-- **Username:** `customer1`
+### 👥 Khách hàng
+**Khách hàng 1:**
+- **Username:** `Dangthiminhngoc`
+- **Email:** DangThiMinhNgoc@gmail.com
 - **Password:** `admin123`
-- **Quyền:** Đặt lịch, xem lịch sử
+- **Họ tên:** Đặng Thị Minh Ngọc
 
-### Nhân viên
-- **Username:** `staff1`
+**Khách hàng 2:**
+- **Username:** `Nguyenthikimngan`
+- **Email:** NguyenThiKimNgan@gmail.com
 - **Password:** `admin123`
-- **Quyền:** Xem lịch làm việc
+- **Họ tên:** Nguyễn Thị Kim Ngân
+
+### 💼 Nhân viên
+**Nhân viên 1:**
+- **Username:** `Lethichau`
+- **Email:** LeThiChau@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Lê Thị Châu
+
+**Nhân viên 2:**
+- **Username:** `Phamvanduoc`
+- **Email:** PhamVanDuoc@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Phạm Văn Được
+
+**Nhân viên 3:**
+- **Username:** `Hoangthiem`
+- **Email:** HoangThiEm@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Hoàng Thị Em
+
+**💡 Mẹo:** Có thể đăng nhập bằng username HOẶC email
 
 ## ✅ Kiểm Tra Cài Đặt
 

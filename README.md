@@ -174,25 +174,62 @@ Website_DatLich/
 
 ## 👤 TÀI KHOẢN DEMO
 
-**⚠️ LƯU Ý:** Tất cả tài khoản đều dùng mật khẩu: `admin123`
+**⚠️ LƯU Ý:** Tất cả tài khoản đều dùng password: **`admin123`**
 
-### Admin
-- **Username:** admin
-- **Password:** admin123
-- **Email:** admin@salon.com
+### 🔐 Admin
+- **Username:** `adminHieu`
+- **Email:** dminhhieu2408@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Đặng Minh Hiếu
+- **SĐT:** 0976985305
 - **Quyền:** Toàn quyền quản trị hệ thống
 
-### Khách hàng
-- **Username:** customer1
-- **Password:** admin123
-- **Email:** customer1@gmail.com
-- **Quyền:** Đặt lịch, xem lịch sử
+### 👥 Khách hàng
 
-### Nhân viên
-- **Username:** staff1
-- **Password:** admin123
-- **Email:** staff1@salon.com
-- **Quyền:** Xem lịch làm việc, cập nhật trạng thái
+**Khách hàng 1:**
+- **Username:** `Dangthiminhngoc`
+- **Email:** DangThiMinhNgoc@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Đặng Thị Minh Ngọc
+- **SĐT:** 0912345678
+- **Quyền:** Đặt lịch, xem lịch sử booking
+
+**Khách hàng 2:**
+- **Username:** `Nguyenthikimngan`
+- **Email:** NguyenThiKimNgan@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Nguyễn Thị Kim Ngân
+- **SĐT:** 0923456789
+- **Quyền:** Đặt lịch, xem lịch sử booking
+
+### 💼 Nhân viên
+
+**Nhân viên 1:**
+- **Username:** `Lethichau`
+- **Email:** LeThiChau@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Lê Thị Châu
+- **SĐT:** 0934567890
+- **Chuyên môn:** Cắt tóc, Nhuộm tóc
+- **Kinh nghiệm:** 5 năm
+
+**Nhân viên 2:**
+- **Username:** `Phamvanduoc`
+- **Email:** PhamVanDuoc@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Phạm Văn Được
+- **SĐT:** 0945678901
+- **Chuyên môn:** Uốn tóc, Duỗi tóc
+- **Kinh nghiệm:** 3 năm
+
+**Nhân viên 3:**
+- **Username:** `Hoangthiem`
+- **Email:** HoangThiEm@gmail.com
+- **Password:** `admin123`
+- **Họ tên:** Hoàng Thị Em
+- **SĐT:** 0956789012
+- **Chuyên môn:** Chăm sóc da, Massage
+- **Kinh nghiệm:** 4 năm
 
 **💡 Mẹo:** Có thể đăng nhập bằng username HOẶC email
 
