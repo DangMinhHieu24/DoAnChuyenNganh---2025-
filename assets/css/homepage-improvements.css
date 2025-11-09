@@ -1,0 +1,139 @@
+/* =============================================
+   HOMEPAGE IMPROVEMENTS - Cải tiến trang chủ
+   Thêm sau style.css trong header
+   ============================================= */
+
+/* Hero - Text Gradient */
+.text-gradient {
+    background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Stats Boxes */
+.stat-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: all 0.3s;
+}
+
+.stat-box:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px);
+}
+
+.stat-box h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.stat-box small {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+}
+
+/* Hero Image Animation */
+.hero-image-wrapper {
+    position: relative;
+    animation: float-gentle 3s ease-in-out infinite;
+}
+
+@keyframes float-gentle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Testimonials */
+.testimonials-section {
+    background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+}
+
+.testimonial-card {
+    transition: all 0.3s;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '\f10d';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 3rem;
+    color: rgba(99, 102, 241, 0.05);
+    z-index: 0;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.testimonial-card .fas.fa-star {
+    font-size: 1.1rem;
+}
+
+.testimonial-card p {
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+    color: #4b5563;
+    line-height: 1.7;
+}
+
+.testimonial-card img {
+    border: 3px solid rgba(99, 102, 241, 0.2);
+}
+
+/* CTA Gift Icon Animation */
+.cta-section .fa-gift {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-section h1 .text-gradient {
+        display: block;
+        margin-top: 10px;
+    }
+    
+    .stat-box h3 {
+        font-size: 1.5rem;
+    }
+    
+    .stat-box small {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Performance - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
