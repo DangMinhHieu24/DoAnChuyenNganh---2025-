@@ -421,6 +421,7 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `full_name`, `p
 (5, 'Phamvanduoc', 'PhamVanDuoc@gmail.com', '$2y$10$.sc/atsll191T/iYpKERG.GzPyv8vUvyZ4SGK7DIkMhdTVht5RxUO', 'Phạm Văn Được', '0945678901', NULL, 'staff', NULL, 'active', '2025-10-16 13:31:51', '2025-11-09 07:01:00'),
 (6, 'Hoangthiem', 'HoangThiEm@gmail.com', '$2y$10$.sc/atsll191T/iYpKERG.GzPyv8vUvyZ4SGK7DIkMhdTVht5RxUO', 'Hoàng Thị Em', '0956789012', NULL, 'staff', NULL, 'active', '2025-10-16 13:31:51', '2025-11-09 07:01:00');
 
+
 -- --------------------------------------------------------
 
 --
