@@ -286,15 +286,15 @@ INSERT INTO `services` (`service_id`, `category_id`, `service_name`, `descriptio
 (7, 3, 'Uốn xoăn', 'Uốn tóc xoăn, sóng nhẹ công nghệ Hàn Quốc. Giữ nếp lâu, không hư tổn tóc.', 400000.00, 120, 'services/curling-hair-man-1.jpg', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
 (8, 3, 'Uốn duỗi', 'Duỗi thẳng tự nhiên hoặc ép phồng. Sử dụng thuốc cao cấp an toàn cho tóc.', 350000.00, 90, 'services/uonduoi-1.jpg', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
 (9, 3, 'Uốn Hàn Quốc', 'Uốn tóc kiểu Hàn Quốc trendy. Tạo độ phồng tự nhiên, bồng bềnh lâu dài.', 550000.00, 150, 'services/UontocHanQuoc-1.jpg', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(10, 4, 'Chăm sóc da cơ bản', 'Làm sạch sâu và dưỡng da cơ bản. Phù hợp mọi loại da, giúp da sạch khỏe.', 200000.00, 60, 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(11, 4, 'Chăm sóc da cao cấp', 'Điều trị da chuyên sâu với công nghệ hiện đại. Phục hồi da hư tổn hiệu quả.', 400000.00, 90, 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(12, 4, 'Trị mụn', 'Điều trị mụn hiệu quả, không để lại scar. Liệu trình chuyên nghiệp cho da mụn.', 300000.00, 75, 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(13, 5, 'Sơn móng tay', 'Sơn móng tay chuyên nghiệp: sơn gel bền màu. Đa dạng mẫu mã theo xu hướng.', 100000.00, 30, 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(14, 5, 'Nail art', 'Vẽ nail art nghệ thuật theo yêu cầu. Họa tiết đẹp mắt, độc đáo và sáng tạo.', 200000.00, 60, 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(15, 5, 'Nối móng', 'Nối móng gel/acrylic chắc khỏe. Tạo form móng đẹp, tự nhiên hoặc dài theo ý.', 300000.00, 90, 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(16, 6, 'Massage body', 'Massage toàn thân thư giãn giảm stress. Kỹ thuật bấm huyệt chuyên nghiệp.', 350000.00, 90, 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(17, 6, 'Massage mặt', 'Massage mặt và đầu giảm căng thẳng. Kích thích lưu thông máu, da khỏe đẹp.', 150000.00, 45, 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
-(18, 6, 'Massage chân', 'Massage chân giảm mỏi mệt sau ngày dài. Bấm huyệt chân thư giãn toàn thân.', 120000.00, 30, 'https://images.unsplash.com/photo-1519824145371-296894a0daa9?w=600', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00');
+(10, 4, 'Chăm sóc da cơ bản', 'Làm sạch sâu và dưỡng da cơ bản. Phù hợp mọi loại da, giúp da sạch khỏe.', 200000.00, 60, 'services/chamsocda-2.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(11, 4, 'Chăm sóc da cao cấp', 'Điều trị da chuyên sâu với công nghệ hiện đại. Phục hồi da hư tổn hiệu quả.', 400000.00, 90, 'services/chamsocda-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(12, 4, 'Trị mụn', 'Điều trị mụn hiệu quả, không để lại scar. Liệu trình chuyên nghiệp cho da mụn.', 300000.00, 75, 'services/trimun-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(13, 5, 'Sơn móng tay', 'Sơn móng tay chuyên nghiệp: sơn gel bền màu. Đa dạng mẫu mã theo xu hướng.', 100000.00, 30, 'services/sonmongtay-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(14, 5, 'Nail art', 'Vẽ nail art nghệ thuật theo yêu cầu. Họa tiết đẹp mắt, độc đáo và sáng tạo.', 200000.00, 60, 'services/nailart-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(15, 5, 'Nối móng', 'Nối móng gel/acrylic chắc khỏe. Tạo form móng đẹp, tự nhiên hoặc dài theo ý.', 300000.00, 90, 'services/noimong-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(16, 6, 'Massage body', 'Massage toàn thân thư giãn giảm stress. Kỹ thuật bấm huyệt chuyên nghiệp.', 350000.00, 90, 'services/massagebody-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(17, 6, 'Massage mặt', 'Massage mặt và đầu giảm căng thẳng. Kích thích lưu thông máu, da khỏe đẹp.', 150000.00, 45, 'services/massagemat-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00'),
+(18, 6, 'Massage chân', 'Massage chân giảm mỏi mệt sau ngày dài. Bấm huyệt chân thư giãn toàn thân.', 120000.00, 30, 'services/massagechan-1.png', 'active', '2025-10-16 13:31:51', '2025-11-06 09:00:00');
 
 -- --------------------------------------------------------
 

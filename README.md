@@ -6,6 +6,7 @@ Hệ thống đặt lịch làm đẹp trực tuyến hoàn chỉnh được xâ
 - [Tính năng](#tính-năng)
 - [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
 - [Cài đặt](#cài-đặt)
+- [Cấu hình Chatbot AI](#cấu-hình-chatbot-ai)
 - [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Tài khoản demo](#tài-khoản-demo)
 - [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
@@ -50,6 +51,7 @@ Hệ thống đặt lịch làm đẹp trực tuyến hoàn chỉnh được xâ
 - ✅ Hệ thống khuyến mãi
 - ✅ Xuất báo cáo PDF/Excel
 - ✅ Gửi email thông báo
+- ✅ **Chatbot AI với Gemini** - Trợ lý ảo thông minh 24/7
 
 ## 💻 YÊU CẦU HỆ THỐNG
 
@@ -103,6 +105,23 @@ define('BASE_URL', 'http://localhost/Website_DatLich');
 2. Truy cập: `http://localhost/Website_DatLich`
 3. Đăng nhập bằng tài khoản demo (xem bên dưới)
 
+## 🤖 CHATBOT AI
+
+Hệ thống tích hợp Chatbot AI sử dụng **Google Gemini 2.0 Flash** - model AI mới nhất.
+
+### Cài đặt nhanh (3 bước)
+
+**1. Lấy API Key:** https://makersuite.google.com/app/apikey
+
+**2. Cấu hình:** Mở `config/chatbot-config.php` và thay API key:
+```php
+define('GEMINI_API_KEY', 'API_KEY_CỦA_BẠN');
+```
+
+**3. Test:** Mở website → Click icon chatbot → Gõ "Xin chào"
+
+📖 **Chi tiết:** [CHATBOT_SETUP.md](CHATBOT_SETUP.md) | 🚀 **Quick Start:** [CHATBOT_QUICKSTART.md](CHATBOT_QUICKSTART.md)
+
 ## 📁 CẤU TRÚC THƯ MỤC
 
 ```
@@ -117,14 +136,18 @@ Website_DatLich/
 │   └── ...
 │
 ├── api/                   # API endpoints
+│   ├── chatbot.php       # API chatbot AI
+│   ├── chatbot-actions.php # Actions cho chatbot
 │   ├── get-staff.php     # Lấy danh sách nhân viên
 │   └── get-time-slots.php # Lấy khung giờ trống
 │
 ├── assets/               # Tài nguyên tĩnh
 │   ├── css/
-│   │   └── style.css    # CSS tùy chỉnh
+│   │   ├── style.css    # CSS tùy chỉnh
+│   │   └── chatbot.css  # CSS chatbot
 │   ├── js/
-│   │   └── main.js      # JavaScript chính
+│   │   ├── main.js      # JavaScript chính
+│   │   └── chatbot.js   # JavaScript chatbot
 │   └── images/          # Hình ảnh
 │
 ├── auth/                # Xác thực
@@ -135,6 +158,7 @@ Website_DatLich/
 ├── config/             # Cấu hình
 │   ├── config.php     # Cấu hình chung
 │   ├── database.php   # Kết nối database
+│   ├── chatbot-config.php # Cấu hình chatbot AI
 │   └── functions.php  # Hàm helper
 │
 ├── database/          # Database
@@ -142,7 +166,8 @@ Website_DatLich/
 │
 ├── includes/          # Components chung
 │   ├── header.php    # Header
-│   └── footer.php    # Footer
+│   ├── footer.php    # Footer
+│   └── chatbot-widget.php # Widget chatbot
 │
 ├── models/           # Models (MVC)
 │   ├── User.php     # Model User
@@ -168,7 +193,10 @@ Website_DatLich/
 │   └── services/
 │
 ├── index.php       # Trang chủ
+├── chatbot-demo.html # Demo chatbot
+├── test-chatbot-api.php # Test API chatbot
 ├── .htaccess       # Apache config
+├── CHATBOT_SETUP.md # Hướng dẫn chatbot
 └── README.md       # File này
 ```
 
@@ -332,6 +360,19 @@ define('SMTP_PASSWORD', 'your-password');
 - Khởi động lại Apache
 
 ## 📝 CHANGELOG
+
+### Version 1.2.0 (2025-11-16)
+- ✅ **Đặt lịch tự động qua chat** - Không cần chuyển trang!
+- ✅ Conversation flow thông minh
+- ✅ Kiểm tra slot trống real-time
+- ✅ UI/UX đẹp với gradient và animation
+
+### Version 1.1.0 (2025-11-16)
+- ✅ **Thêm Chatbot AI với Gemini 2.0 Flash**
+- ✅ Trợ lý ảo thông minh 24/7
+- ✅ Tích hợp database để trả lời chính xác
+- ✅ Hỗ trợ đặt lịch qua chat
+- ✅ Giao diện chatbot đẹp, responsive
 
 ### Version 1.0.0 (2025-10-10)
 - ✅ Phát hành phiên bản đầu tiên

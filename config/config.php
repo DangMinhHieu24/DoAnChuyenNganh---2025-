@@ -15,7 +15,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Constants
 define('BASE_URL', 'http://localhost/Website_DatLich');
 define('SITE_NAME', 'eBooking');
-define('SITE_EMAIL', 'dminhhieu240@gmail.com');
+define('SITE_EMAIL', 'dminhhieu2408@gmail.com');
 define('SITE_PHONE', '0976985305');
 define('SITE_ADDRESS', '162 ABC, Phường 5, TP Trà Vinh');
 

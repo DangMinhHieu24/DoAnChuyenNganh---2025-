@@ -70,3 +70,10 @@
         </div>
     </div>
 </footer>
+
+<?php
+// Include Chatbot Widget
+if (file_exists(__DIR__ . '/chatbot-widget.php')) {
+    include __DIR__ . '/chatbot-widget.php';
+}
+?>

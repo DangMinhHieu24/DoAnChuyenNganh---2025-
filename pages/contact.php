@@ -77,7 +77,7 @@
                                         <textarea class="form-control" rows="5" required></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-lg">
+                                <button type="submit" class="btn btn-primary btn-lg">      
                                     <i class="fas fa-paper-plane me-2"></i>Gửi tin nhắn
                                 </button>
                             </form>
