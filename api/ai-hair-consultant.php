@@ -237,11 +237,15 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
     $result = json_decode($response, true);
     
     if (!$result) {
+        error_log("Gemini Vision API: Cannot parse JSON - " . $response);
         return [
             'success' => false,
             'message' => 'Không thể parse response'
         ];
     }
+    
+    // Log response structure for debugging
+    error_log("Gemini Vision API Response: " . json_encode($result));
     
     if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
         return [
@@ -250,9 +254,18 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
         ];
     }
     
+    // Check for error in response
+    if (isset($result['error'])) {
+        error_log("Gemini Vision API Error: " . json_encode($result['error']));
+        return [
+            'success' => false,
+            'message' => 'Lỗi API: ' . ($result['error']['message'] ?? 'Unknown error')
+        ];
+    }
+    
     return [
         'success' => false,
-        'message' => 'Không nhận được phân tích từ AI'
+        'message' => 'Không nhận được phân tích từ AI. Vui lòng thử lại.'
     ];
 }
 
