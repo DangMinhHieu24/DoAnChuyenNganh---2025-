@@ -66,8 +66,10 @@ uploads/*
 # Backup files
 *.bak
 *.backup
-*.sql
 *.sql.gz
+
+# Allow database schema file
+!database/*.sql
 
 # ============================================
 # ENVIRONMENT
