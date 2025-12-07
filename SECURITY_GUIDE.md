@@ -26,8 +26,6 @@ git status
 ```bash
 # Xóa file khỏi Git nhưng giữ lại trên máy local
 git rm --cached config/chatbot-config.php
-git rm --cached config/config.php
-git rm --cached config/database.php
 
 # Commit thay đổi
 git add .gitignore
