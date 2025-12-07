@@ -71,15 +71,18 @@ function analyzeFace($db) {
         $result = callGeminiVisionAPI($prompt, $base64Image, $mimeType);
         
         if ($result['success']) {
+            // Thêm phần gợi ý đặt lịch
+            $enhancedAnalysis = enhanceAnalysisWithBooking($result['analysis'], $db);
+            
             // Lưu vào session để tracking
             $_SESSION['last_hair_analysis'] = [
                 'timestamp' => time(),
-                'result' => $result['analysis']
+                'result' => $enhancedAnalysis
             ];
             
             jsonResponse([
                 'success' => true,
-                'analysis' => $result['analysis'],
+                'analysis' => $enhancedAnalysis,
                 'suggestions' => parseHairstyleSuggestions($result['analysis']),
                 'message' => 'Phân tích thành công! 🎨'
             ]);
@@ -120,44 +123,58 @@ function buildHairConsultantPrompt($db) {
     $servicesText = implode("\n- ", $hairServices);
     
     $prompt = <<<PROMPT
-Bạn là chuyên gia tư vấn kiểu tóc chuyên nghiệp của salon {SALON_NAME}.
+Bạn là chuyên gia tư vấn kiểu tóc chuyên nghiệp của salon eBooking. 
 
 NHIỆM VỤ:
-Phân tích ảnh khuôn mặt của khách hàng và đưa ra gợi ý kiểu tóc phù hợp nhất.
+Phân tích ảnh khuôn mặt của khách hàng và đưa ra gợi ý kiểu tóc CỤ THỂ kèm dịch vụ của salon.
 
-PHÂN TÍCH:
-1. Khuôn mặt: Xác định hình dạng (tròn, vuông, dài, trái xoan, tim...)
-2. Đặc điểm: Trán, má, cằm, tỷ lệ khuôn mặt
-3. Màu da: Tông da (trắng, ngăm, bánh mật...)
-4. Phong cách hiện tại: Kiểu tóc đang có (nếu thấy)
+BƯỚC 1 - PHÂN TÍCH KHUÔN MẶT:
+- Hình dạng: Xác định chính xác (tròn, vuông, dài, trái xoan, tim, oval...)
+- Đặc điểm nổi bật: Trán, má, cằm, tỷ lệ khuôn mặt
+- Màu da: Tông da (trắng, ngăm, bánh mật...)
+- Tóc hiện tại: Mô tả kiểu tóc đang có (nếu thấy)
 
-GỢI Ý:
-Đưa ra 3-4 kiểu tóc phù hợp nhất với format:
+BƯỚC 2 - GỢI Ý KIỂU TÓC CỤ THỂ:
+Đưa ra 3-4 kiểu tóc phù hợp với format SAU:
 
 **PHÂN TÍCH KHUÔN MẶT:**
-[Mô tả chi tiết khuôn mặt]
+[Mô tả chi tiết khuôn mặt của khách hàng]
 
-**GỢI Ý KIỂU TÓC:**
+**GỢI Ý KIỂU TÓC PHÙ HỢP:**
 
-1. **[Tên kiểu tóc]** ⭐⭐⭐⭐⭐
-   - Mô tả: [Chi tiết kiểu tóc]
-   - Phù hợp vì: [Lý do cụ thể]
-   - Dịch vụ cần: [Cắt/Nhuộm/Uốn...]
-   - Độ khó: [Dễ/Trung bình/Khó]
+**1. [Tên kiểu tóc cụ thể - VD: Tóc Undercut Fade, Tóc Bob Ngắn Layer...]** ⭐⭐⭐⭐⭐
+   - **Mô tả kiểu tóc:** [Chi tiết độ dài, lớp, kiểu cắt...]
+   - **Phù hợp vì:** [Lý do cụ thể dựa trên khuôn mặt]
+   - **Dịch vụ cần làm tại salon:**
+     • Cắt tóc [mô tả cách cắt]
+     • Nhuộm màu [gợi ý màu nếu cần]
+     • Uốn/Duỗi [nếu cần]
+   - **Thời gian:** Khoảng [X] phút
+   - **Độ khó:** [Dễ/Trung bình/Khó]
 
-2. **[Tên kiểu tóc]** ⭐⭐⭐⭐
-   [Tương tự]
+**2. [Tên kiểu tóc khác]** ⭐⭐⭐⭐
+   [Format tương tự]
 
-3. **[Tên kiểu tóc]** ⭐⭐⭐⭐
-   [Tương tự]
+**3. [Tên kiểu tóc khác]** ⭐⭐⭐⭐
+   [Format tương tự]
+
+**DỊCH VỤ TẠI SALON CHÚNG TÔI:**
+{$servicesText}
 
 **LƯU Ý CHĂM SÓC:**
-[Gợi ý chăm sóc tóc]
+- [Gợi ý sản phẩm và cách chăm sóc]
+- [Tần suất cắt tỉa]
 
-**DỊCH VỤ CỦA CHÚNG TÔI:**
-- {$servicesText}
+**KẾT LUẬN:**
+Khuyến khích khách hàng đặt lịch để được tư vấn trực tiếp và trải nghiệm dịch vụ chuyên nghiệp.
 
-Hãy trả lời bằng tiếng Việt, thân thiện, chuyên nghiệp và chi tiết.
+QUAN TRỌNG:
+- Phải gợi ý TÊN KIỂU TÓC CỤ THỂ (không chung chung)
+- Phải nói rõ DỊCH VỤ NÀO cần làm tại salon
+- Phải khuyến khích ĐẶT LỊCH
+- Trả lời bằng tiếng Việt, thân thiện, chuyên nghiệp
+
+Hãy phân tích và tư vấn chi tiết!
 PROMPT;
 
     return $prompt;
@@ -240,7 +257,7 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
 }
 
 /**
- * Parse gợi ý kiểu tóc từ text
+ * Parse gợi ý kiểu tóc từ text và thêm dịch vụ
  */
 function parseHairstyleSuggestions($analysisText) {
     $suggestions = [];
@@ -258,6 +275,40 @@ function parseHairstyleSuggestions($analysisText) {
     }
     
     return $suggestions;
+}
+
+/**
+ * Thêm phần gợi ý đặt lịch vào cuối analysis
+ */
+function enhanceAnalysisWithBooking($analysisText, $db) {
+    $serviceModel = new Service($db);
+    $services = $serviceModel->getAllServices();
+    
+    $hairServices = [];
+    foreach ($services as $service) {
+        if (stripos($service['service_name'], 'tóc') !== false || 
+            stripos($service['service_name'], 'cắt') !== false ||
+            stripos($service['service_name'], 'nhuộm') !== false ||
+            stripos($service['service_name'], 'uốn') !== false) {
+            $hairServices[] = $service;
+        }
+    }
+    
+    $bookingSection = "\n\n---\n\n";
+    $bookingSection .= "**🎯 ĐẶT LỊCH NGAY ĐỂ TRẢI NGHIỆM:**\n\n";
+    $bookingSection .= "Các dịch vụ phù hợp với bạn:\n\n";
+    
+    foreach (array_slice($hairServices, 0, 5) as $service) {
+        $bookingSection .= "✨ **{$service['service_name']}**\n";
+        $bookingSection .= "   - Giá: " . number_format($service['price']) . "đ\n";
+        $bookingSection .= "   - Thời gian: {$service['duration']} phút\n\n";
+    }
+    
+    $bookingSection .= "📞 **Liên hệ:** " . SALON_PHONE . "\n";
+    $bookingSection .= "📍 **Địa chỉ:** " . SALON_ADDRESS . "\n\n";
+    $bookingSection .= "👉 **Click nút 'Đặt Lịch Ngay' bên dưới để được phục vụ!**";
+    
+    return $analysisText . $bookingSection;
 }
 
 /**
