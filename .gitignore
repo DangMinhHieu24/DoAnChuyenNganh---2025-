@@ -1,0 +1,88 @@
+# ============================================
+# SENSITIVE FILES - KHÔNG PUSH LÊN GITHUB
+# ============================================
+
+# Config file chứa API key
+config/chatbot-config.php
+
+# ============================================
+# SYSTEM FILES
+# ============================================
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ============================================
+# IDE & EDITOR
+# ============================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# PHP
+# ============================================
+
+# Composer
+vendor/
+composer.lock
+
+# Logs
+*.log
+logs/
+error_log
+
+# Cache
+cache/
+*.cache
+
+# ============================================
+# UPLOADS & USER DATA
+# ============================================
+
+# Upload files (nếu có ảnh cá nhân)
+uploads/*
+!uploads/.gitkeep
+
+# Backup files
+*.bak
+*.backup
+*.sql
+*.sql.gz
+
+# ============================================
+# ENVIRONMENT
+# ============================================
+
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# NODE (nếu có)
+# ============================================
+
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
