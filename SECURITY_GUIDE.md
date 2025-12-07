@@ -2,18 +2,22 @@
 
 ## ⚠️ QUAN TRỌNG: Đã làm gì?
 
-Tôi đã thiết lập bảo mật cho project của bạn:
+Hệ thống bảo mật đã được thiết lập:
 
 ### 1. ✅ Tạo file `.gitignore`
 File này ngăn các file nhạy cảm bị push lên GitHub:
 - `config/chatbot-config.php` - Chứa GEMINI_API_KEY
-- `config/config.php` - Chứa thông tin cấu hình
-- `config/database.php` - Chứa thông tin database
 - `uploads/*` - File upload của user
+- `*.log` - File log
+- `.env` - Environment variables
 
-### 2. ✅ Cập nhật file example
-- `config/chatbot-config.example.php` đã được làm sạch API key
+### 2. ✅ Tạo file example
+- `config/chatbot-config.example.php` - Template không chứa API key thật
 - Thay API key thật bằng `YOUR_GEMINI_API_KEY_HERE`
+
+### 3. ✅ Cấu trúc bảo mật
+- File `.php` (thật) = Có API key, **KHÔNG** push lên GitHub
+- File `.example.php` = Không có API key, push lên GitHub làm template
 
 ## 📋 Các Bước Tiếp Theo
 
@@ -41,10 +45,11 @@ git push origin main
 
 Nếu bạn đã vô tình push API key lên GitHub trước đó:
 
-### 1. **HỦY API KEY CŨ NGAY LẬP TỨC**
+### 1. **HỦY API KEY CŨ NGAY LẬP TỨC** ⚠️
 - Truy cập: https://makersuite.google.com/app/apikey
-- Xóa API key cũ
-- Tạo API key mới
+- **Xóa API key cũ** (key đã bị lộ)
+- **Tạo API key mới**
+- Cập nhật vào `config/chatbot-config.php`
 
 ### 2. **Xóa Git History** (Tùy chọn - Nguy hiểm!)
 ```bash

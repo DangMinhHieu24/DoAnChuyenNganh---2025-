@@ -52,7 +52,7 @@ Hệ thống quản lý và đặt lịch salon tóc hiện đại với tích h
 - **AJAX** - Async requests
 
 ### AI Integration
-- **Google Gemini 2.0 Flash** - Text generation & chat
+- **Google Gemini 2.5 Flash** - Text generation & chat (multimodal)
 - **Google Gemini Vision** - Image analysis
 - **REST API** - API integration
 
@@ -70,7 +70,7 @@ Hệ thống quản lý và đặt lịch salon tóc hiện đại với tích h
 
 #### 1. Clone hoặc tải project
 ```bash
-git clone https://github.com/yourusername/Website_DatLich.git
+git clone https://github.com/DangMinhHieu24/DoAnChuyenNganh---2025-
 cd Website_DatLich
 ```
 
@@ -108,11 +108,14 @@ define('SITE_ADDRESS', '162 ABC, Phường 5, TP Trà Vinh');
 #### 5. Cấu hình Gemini API
 - Truy cập: https://makersuite.google.com/app/apikey
 - Đăng nhập Google và tạo API key mới
+- Copy file example: `copy config\chatbot-config.example.php config\chatbot-config.php`
 - Sửa file `config/chatbot-config.php`:
 ```php
 define('GEMINI_API_KEY', 'AIzaSy...');  // Thay bằng API key của bạn
-define('GEMINI_MODEL', 'gemini-2.0-flash');  // Đã cấu hình sẵn
+define('GEMINI_MODEL', 'gemini-2.5-flash');  // Model mới nhất
 ```
+
+**Lưu ý:** File `config/chatbot-config.php` không được push lên Git (đã có trong `.gitignore`)
 
 #### 6. Tạo thư mục uploads
 ```bash
@@ -353,11 +356,23 @@ Fix:
 
 ### Lỗi Chatbot Không Hoạt Động
 ```
-Error: "API returned null"
+Error: "API returned null" hoặc "Lỗi kết nối API"
 Fix:
 - Kiểm tra GEMINI_API_KEY trong config/chatbot-config.php
-- Verify API key còn quota (60 requests/minute)
+- Verify API key còn quota (15 requests/phút, 1500 requests/ngày)
+- Nếu hết quota: Đợi reset (7:00 sáng) hoặc tạo API key mới
 - Kiểm tra cURL extension đã enable
+- Restart Apache sau khi sửa config
+```
+
+### Lỗi 429 - Quota Exceeded
+```
+Error: "You exceeded your current quota"
+Fix:
+- API key đã hết quota miễn phí
+- Giải pháp 1: Đợi đến 7:00 sáng hôm sau (quota reset)
+- Giải pháp 2: Tạo API key mới tại https://makersuite.google.com/app/apikey
+- Giải pháp 3: Upgrade lên paid plan ($0.075/1M tokens)
 ```
 
 ### Lỗi Upload Ảnh
@@ -402,9 +417,10 @@ MIT License - Free to use for educational purposes
 ## 🙏 Credits
 
 **AI & APIs:**
-- **Google Gemini 2.0 Flash** - Text generation & chat
+- **Google Gemini 2.5 Flash** - Text generation & chat (multimodal)
 - **Google Gemini Vision** - Image analysis
 - **Google AI Studio** - API key management
+- **Gemini API v1** - REST API endpoint
 
 **Frontend:**
 - **Bootstrap 5** - UI Framework
@@ -420,8 +436,8 @@ MIT License - Free to use for educational purposes
 
 **Phát triển bởi:** Đặng Minh Hiếu  
 **Email:** dminhhieu2408@gmail.com  
-**Phiên bản:** 2.0.0  
-**Cập nhật:** December 2024
+**Phiên bản:** 2.1.0  
+**Cập nhật:** December 7, 2025
 
 ## 🌟 Features Highlight
 

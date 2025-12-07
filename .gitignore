@@ -3,6 +3,7 @@
 # ============================================
 
 # Config file chứa API key
+# Xoá đấu thăng đi để ẩn file API push lên github 
 config/chatbot-config.php
 
 # ============================================

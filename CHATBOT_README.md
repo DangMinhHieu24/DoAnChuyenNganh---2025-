@@ -1,6 +1,6 @@
 # 🤖 AI Chatbot - Hướng Dẫn Chi Tiết
 
-Chatbot AI thông minh sử dụng Google Gemini 2.0 Flash với khả năng đặt lịch tự động.
+Chatbot AI thông minh sử dụng Google Gemini 2.5 Flash với khả năng đặt lịch tự động.
 
 ## 📋 Tổng Quan
 
@@ -52,6 +52,12 @@ Bot: "Đặt lịch thành công! ✅"
 3. Click "Create API Key"
 4. Copy API key
 
+**Giới hạn miễn phí:**
+- **15 requests/phút** (RPM)
+- **1,500 requests/ngày** (RPD)
+- **1 triệu tokens/ngày**
+- Quota reset vào **7:00 sáng** mỗi ngày (giờ Việt Nam)
+
 ### 2. Cấu Hình
 
 Mở file `config/chatbot-config.php`:
@@ -60,10 +66,13 @@ Mở file `config/chatbot-config.php`:
 // Thay YOUR_API_KEY_HERE bằng API key của bạn
 define('GEMINI_API_KEY', 'AIzaSy...');
 
-// Model (đã cấu hình sẵn)
-define('GEMINI_MODEL', 'gemini-2.0-flash');
+// Model - Gemini 2.5 Flash (multimodal, mới nhất)
+define('GEMINI_MODEL', 'gemini-2.5-flash');
 
-// Thông tin salon
+// API Endpoint - Sử dụng v1 (không phải v1beta)
+define('GEMINI_API_URL', 'https://generativelanguage.googleapis.com/v1/models/' . GEMINI_MODEL . ':generateContent');
+
+// Thông tin salon (tùy chỉnh theo salon của bạn)
 define('SALON_NAME', 'eBooking Salon');
 define('SALON_ADDRESS', '162 ABC, Phường 5, TP Trà Vinh');
 define('SALON_PHONE', '0976985305');
@@ -232,8 +241,19 @@ Fix: Kiểm tra GEMINI_API_KEY trong config
 
 ### Lỗi Model Not Found
 ```
-Error: "models/xxx is not found"
-Fix: Đảm bảo dùng model 'gemini-2.0-flash'
+Error: "models/xxx is not found for API version v1beta"
+Fix: 
+- Đảm bảo dùng API v1 (không phải v1beta)
+- Dùng model 'gemini-2.5-flash' hoặc 'gemini-2.0-flash'
+```
+
+### Lỗi 429 - Quota Exceeded
+```
+Error: "You exceeded your current quota"
+Fix:
+- Đợi quota reset (7:00 sáng)
+- Hoặc tạo API key mới
+- Xem chi tiết: API_QUOTA_GUIDE.md
 ```
 
 ### Lỗi Timeout
@@ -340,6 +360,22 @@ Nếu gặp vấn đề:
 
 ---
 
-**Gemini API Documentation:** https://ai.google.dev/docs  
-**Model Info:** Gemini 2.0 Flash - Latest & Fastest  
-**Free Tier:** 60 requests/minute
+## 📚 Tài Liệu Liên Quan
+
+- **API_QUOTA_GUIDE.md** - Hướng dẫn quản lý quota
+- **README_SETUP.md** - Hướng dẫn cài đặt chi tiết
+- **SECURITY_GUIDE.md** - Hướng dẫn bảo mật API key
+
+## 🔗 Links Hữu Ích
+
+- **Gemini API Docs:** https://ai.google.dev/docs
+- **API Key Management:** https://makersuite.google.com/app/apikey
+- **Rate Limits:** https://ai.google.dev/gemini-api/docs/rate-limits
+- **Usage Dashboard:** https://ai.dev/usage
+
+---
+
+**Model:** Gemini 2.5 Flash (Multimodal)  
+**API Version:** v1  
+**Free Tier:** 15 RPM, 1,500 RPD  
+**Cập nhật:** December 7, 2025

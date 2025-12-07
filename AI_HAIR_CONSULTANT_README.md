@@ -1,6 +1,6 @@
 # 🎨 AI Hair Consultant - Tư Vấn Kiểu Tóc Thông Minh
 
-Tính năng AI phân tích khuôn mặt và gợi ý kiểu tóc phù hợp sử dụng Google Gemini Vision API.
+Tính năng AI phân tích khuôn mặt và gợi ý kiểu tóc phù hợp sử dụng Google Gemini 2.5 Flash (multimodal).
 
 ## 📋 Tổng Quan
 
@@ -48,8 +48,11 @@ Tính năng này sử dụng chung API key với Chatbot:
 ```php
 // File: config/chatbot-config.php
 define('GEMINI_API_KEY', 'YOUR_API_KEY_HERE');
-define('GEMINI_MODEL', 'gemini-2.0-flash');
+define('GEMINI_MODEL', 'gemini-2.5-flash'); // Model multimodal hỗ trợ Vision
+define('GEMINI_API_URL', 'https://generativelanguage.googleapis.com/v1/models/' . GEMINI_MODEL . ':generateContent');
 ```
+
+**Lưu ý:** Model `gemini-2.5-flash` là multimodal, hỗ trợ cả text và image.
 
 ### 2. Không Cần Cài Đặt Thêm
 - Sử dụng cùng API key với chatbot
@@ -189,18 +192,30 @@ Fix: Nén ảnh hoặc chọn ảnh nhỏ hơn
 ```
 Error: "API trả về lỗi: 400/404/500"
 Fix: 
-- Kiểm tra API key
-- Kiểm tra model name
-- Kiểm tra network
+- Kiểm tra API key trong config/chatbot-config.php
+- Đảm bảo dùng model 'gemini-2.5-flash'
+- Kiểm tra API endpoint dùng v1 (không phải v1beta)
+- Kiểm tra network connection
+```
+
+### Lỗi 429 - Quota Exceeded
+```
+Error: "You exceeded your current quota"
+Fix:
+- API key đã hết quota miễn phí
+- Đợi đến 7:00 sáng (quota reset)
+- Hoặc tạo API key mới
+- Xem chi tiết: API_QUOTA_GUIDE.md
 ```
 
 ### Lỗi Phân Tích
 ```
 Error: "Không nhận được phân tích từ AI"
 Fix:
-- Thử lại với ảnh khác
-- Đảm bảo ảnh rõ mặt
-- Kiểm tra API quota
+- Thử lại với ảnh khác (ảnh rõ mặt hơn)
+- Đảm bảo ảnh có khuôn mặt rõ ràng
+- Kiểm tra API quota còn không
+- Restart Apache sau khi sửa config
 ```
 
 ## ⚙️ Tùy Chỉnh
@@ -340,6 +355,22 @@ Nếu gặp vấn đề:
 
 ---
 
-**Gemini Vision API:** https://ai.google.dev/tutorials/vision_quickstart  
-**Model:** Gemini 2.0 Flash (Multimodal)  
-**Free Tier:** 60 requests/minute
+## 📚 Tài Liệu Liên Quan
+
+- **API_QUOTA_GUIDE.md** - Hướng dẫn quản lý quota
+- **CHATBOT_README.md** - Hướng dẫn chatbot (dùng chung API key)
+- **README_SETUP.md** - Hướng dẫn cài đặt chi tiết
+
+## 🔗 Links Hữu Ích
+
+- **Gemini Vision API:** https://ai.google.dev/tutorials/vision_quickstart
+- **API Key Management:** https://makersuite.google.com/app/apikey
+- **Model List:** https://ai.google.dev/models/gemini
+- **Usage Dashboard:** https://ai.dev/usage
+
+---
+
+**Model:** Gemini 2.5 Flash (Multimodal - Text + Image)  
+**API Version:** v1  
+**Free Tier:** 15 RPM, 1,500 RPD  
+**Cập nhật:** December 7, 2025
