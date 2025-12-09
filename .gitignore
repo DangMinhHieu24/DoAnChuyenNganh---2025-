@@ -60,17 +60,10 @@ cache/
 # UPLOADS & USER DATA
 # ============================================
 
-# Upload files (nếu có ảnh cá nhân)
-uploads/*
-!uploads/.gitkeep
-
 # Backup files
 *.bak
 *.backup
 *.sql.gz
-
-# Allow database schema file
-!database/*.sql
 
 # ============================================
 # ENVIRONMENT

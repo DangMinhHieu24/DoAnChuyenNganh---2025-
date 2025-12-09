@@ -111,7 +111,7 @@ define('SITE_ADDRESS', '162 ABC, Phường 5, TP Trà Vinh');
 - Copy file example: `copy config\chatbot-config.example.php config\chatbot-config.php`
 - Sửa file `config/chatbot-config.php`:
 ```php
-define('GEMINI_API_KEY', 'AIzaSy...');  // Thay bằng API key của bạn
+define('GEMINI_API_KEY', 'AIzaSy...');  
 define('GEMINI_MODEL', 'gemini-2.5-flash');  // Model mới nhất
 ```
 
