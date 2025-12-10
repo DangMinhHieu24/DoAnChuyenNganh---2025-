@@ -123,58 +123,38 @@ function buildHairConsultantPrompt($db) {
     $servicesText = implode("\n- ", $hairServices);
     
     $prompt = <<<PROMPT
-Bạn là chuyên gia tư vấn kiểu tóc chuyên nghiệp của salon eBooking. 
-
-NHIỆM VỤ:
-Phân tích ảnh khuôn mặt của khách hàng và đưa ra gợi ý kiểu tóc CỤ THỂ kèm dịch vụ của salon.
-
-BƯỚC 1 - PHÂN TÍCH KHUÔN MẶT:
-- Hình dạng: Xác định chính xác (tròn, vuông, dài, trái xoan, tim, oval...)
-- Đặc điểm nổi bật: Trán, má, cằm, tỷ lệ khuôn mặt
-- Màu da: Tông da (trắng, ngăm, bánh mật...)
-- Tóc hiện tại: Mô tả kiểu tóc đang có (nếu thấy)
-
-BƯỚC 2 - GỢI Ý KIỂU TÓC CỤ THỂ:
-Đưa ra 3-4 kiểu tóc phù hợp với format SAU:
+Bạn là chuyên gia tư vấn kiểu tóc của salon eBooking. Phân tích ảnh và tư vấn kiểu tóc phù hợp.
 
 **PHÂN TÍCH KHUÔN MẶT:**
-[Mô tả chi tiết khuôn mặt của khách hàng]
+- Hình dạng khuôn mặt (tròn/vuông/dài/oval...)
+- Đặc điểm nổi bật
+- Kiểu tóc hiện tại
 
-**GỢI Ý KIỂU TÓC PHÙ HỢP:**
+**GỢI Ý KIỂU TÓC (3 kiểu):**
 
-**1. [Tên kiểu tóc cụ thể - VD: Tóc Undercut Fade, Tóc Bob Ngắn Layer...]** ⭐⭐⭐⭐⭐
-   - **Mô tả kiểu tóc:** [Chi tiết độ dài, lớp, kiểu cắt...]
-   - **Phù hợp vì:** [Lý do cụ thể dựa trên khuôn mặt]
-   - **Dịch vụ cần làm tại salon:**
-     • Cắt tóc [mô tả cách cắt]
-     • Nhuộm màu [gợi ý màu nếu cần]
-     • Uốn/Duỗi [nếu cần]
-   - **Thời gian:** Khoảng [X] phút
-   - **Độ khó:** [Dễ/Trung bình/Khó]
+**1. [Tên kiểu tóc cụ thể]** ⭐⭐⭐⭐⭐
+- Mô tả: [Chi tiết kiểu tóc]
+- Phù hợp vì: [Lý do]
+- Dịch vụ cần: Cắt/Nhuộm/Uốn
+- Thời gian: [X] phút
 
-**2. [Tên kiểu tóc khác]** ⭐⭐⭐⭐
-   [Format tương tự]
+**2. [Kiểu tóc 2]** ⭐⭐⭐⭐
+[Format tương tự]
 
-**3. [Tên kiểu tóc khác]** ⭐⭐⭐⭐
-   [Format tương tự]
+**3. [Kiểu tóc 3]** ⭐⭐⭐⭐
+[Format tương tự]
 
-**DỊCH VỤ TẠI SALON CHÚNG TÔI:**
+**DỊCH VỤ TẠI SALON:**
 {$servicesText}
 
 **LƯU Ý CHĂM SÓC:**
-- [Gợi ý sản phẩm và cách chăm sóc]
-- [Tần suất cắt tỉa]
+- Sản phẩm và cách chăm sóc
+- Tần suất cắt tỉa
 
 **KẾT LUẬN:**
-Khuyến khích khách hàng đặt lịch để được tư vấn trực tiếp và trải nghiệm dịch vụ chuyên nghiệp.
+Đặt lịch ngay để được tư vấn trực tiếp!
 
-QUAN TRỌNG:
-- Phải gợi ý TÊN KIỂU TÓC CỤ THỂ (không chung chung)
-- Phải nói rõ DỊCH VỤ NÀO cần làm tại salon
-- Phải khuyến khích ĐẶT LỊCH
-- Trả lời bằng tiếng Việt, thân thiện, chuyên nghiệp
-
-Hãy phân tích và tư vấn chi tiết!
+Trả lời bằng tiếng Việt, thân thiện, chuyên nghiệp.
 PROMPT;
 
     return $prompt;
@@ -202,11 +182,29 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
             'temperature' => 0.7,
             'topK' => 40,
             'topP' => 0.95,
-            'maxOutputTokens' => 2048,
+            'maxOutputTokens' => 4096,
+        ],
+        'safetySettings' => [
+            [
+                'category' => 'HARM_CATEGORY_HARASSMENT',
+                'threshold' => 'BLOCK_NONE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                'threshold' => 'BLOCK_NONE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                'threshold' => 'BLOCK_NONE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                'threshold' => 'BLOCK_NONE'
+            ]
         ]
     ];
     
-    $ch = curl_init(GEMINI_API_URL . '?key=' . GEMINI_API_KEY);
+    $ch = curl_init(GEMINI_HAIR_API_URL . '?key=' . GEMINI_API_KEY);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -254,6 +252,27 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
         ];
     }
     
+    // Check for blocked content
+    if (isset($result['candidates'][0]['finishReason'])) {
+        $finishReason = $result['candidates'][0]['finishReason'];
+        if ($finishReason === 'SAFETY') {
+            error_log("Gemini Vision API: Content blocked by safety filters");
+            return [
+                'success' => false,
+                'message' => 'Ảnh bị chặn bởi bộ lọc an toàn. Vui lòng thử ảnh khác.'
+            ];
+        } elseif ($finishReason === 'MAX_TOKENS') {
+            error_log("Gemini Vision API: Response truncated due to max tokens");
+            // Vẫn trả về nếu có text
+            if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+                return [
+                    'success' => true,
+                    'analysis' => $result['candidates'][0]['content']['parts'][0]['text']
+                ];
+            }
+        }
+    }
+    
     // Check for error in response
     if (isset($result['error'])) {
         error_log("Gemini Vision API Error: " . json_encode($result['error']));
@@ -263,9 +282,13 @@ function callGeminiVisionAPI($prompt, $base64Image, $mimeType) {
         ];
     }
     
+    // Log full response for debugging
+    error_log("Gemini Vision API: Unexpected response - " . json_encode($result));
+    
     return [
         'success' => false,
-        'message' => 'Không nhận được phân tích từ AI. Vui lòng thử lại.'
+        'message' => 'Không nhận được phân tích từ AI. Vui lòng thử lại.',
+        'debug' => $result
     ];
 }
 
