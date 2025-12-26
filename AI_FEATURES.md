@@ -503,3 +503,8 @@ Nếu gặp vấn đề với AI features:
 2. Kiểm tra quota
 3. Xem error logs
 4. Liên hệ: dminhhieu2408@gmail.com
+
+
+---
+
+**Cập nhật lần cuối**: 26 tháng 12, 2025

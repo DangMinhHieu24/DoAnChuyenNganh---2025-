@@ -436,3 +436,8 @@ Nếu gặp vấn đề không giải quyết được:
 ---
 
 **Chúc bạn cài đặt thành công! 🎉**
+
+
+---
+
+**Cập nhật lần cuối**: 26 tháng 12, 2025

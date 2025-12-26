@@ -586,4 +586,4 @@ Nếu gặp vấn đề với API:
 
 ---
 
-**Last Updated**: December 10, 2025
+**Cập nhật lần cuối**: 26 tháng 12, 2025

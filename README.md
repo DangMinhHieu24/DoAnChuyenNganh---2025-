@@ -166,10 +166,16 @@ define('SITE_PHONE', '0123456789');
 
 ### Bước 4: Cấu hình AI (Gemini API)
 1. Lấy API key tại: https://aistudio.google.com/app/apikey
-2. Cấu hình trong `config/chatbot-config.php`:
+2. Copy file config mẫu:
+```bash
+cp config/chatbot-config.example.php config/chatbot-config.php
+```
+3. Cấu hình API key trong `config/chatbot-config.php`:
 ```php
 define('GEMINI_API_KEY', 'your-api-key-here');
 ```
+
+**Lưu ý**: File `config/chatbot-config.php` đã được thêm vào `.gitignore` để bảo vệ API key.
 
 ### Bước 5: Phân quyền thư mục
 ```bash
@@ -181,9 +187,11 @@ chmod 755 uploads/services/
 ### Bước 6: Truy cập
 - **Trang chủ**: http://localhost/Website_DatLich
 - **Admin**: http://localhost/Website_DatLich/admin
-- **Đăng nhập admin**: 
-  - Email: admin@salon.com
-  - Password: admin123
+- **Đăng nhập admin mặc định**: 
+  - Email: `dminhhieu2408@gmail.com`
+  - Password: `123` (Nên đổi sau khi đăng nhập lần đầu)
+
+**Lưu ý**: Tài khoản mặc định được tạo sẵn trong database. Vui lòng đổi mật khẩu ngay sau khi đăng nhập lần đầu để bảo mật.
 
 ---
 
@@ -406,9 +414,28 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng:
 
 ---
 
-## 📄 License
+## 📄 Bản quyền
 
-Dự án này được phát triển cho mục đích học tập và thương mại.
+Dự án này được phát triển cho mục đích học tập (Đồ án chuyên ngành).
+
+**Sinh viên thực hiện**: Đặng Minh Hiếu  
+**MSSV**: [Mã số sinh viên]  
+**Lớp**: [Tên lớp]  
+**Trường**: [Tên trường]  
+**Năm học**: 2024-2025
+
+---
+
+## 📚 Tài liệu tham khảo
+
+Để hiểu rõ hơn về dự án, vui lòng đọc các tài liệu sau:
+
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Hướng dẫn cài đặt chi tiết từng bước
+- **[AI_FEATURES.md](AI_FEATURES.md)** - Tài liệu chi tiết về 3 tính năng AI
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Tài liệu API endpoints đầy đủ
+- **[DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)** - Cấu trúc database và quan hệ
+- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Hướng dẫn triển khai production
+- **[CHANGELOG.md](CHANGELOG.md)** - Lịch sử phát triển và thay đổi
 
 ---
 
@@ -426,3 +453,8 @@ Dự án này được phát triển cho mục đích học tập và thương m
 - **Bootstrap** - UI Framework
 - **Font Awesome** - Icons
 - **jQuery** - JavaScript Library
+
+
+---
+
+**Cập nhật lần cuối**: 26 tháng 12, 2025

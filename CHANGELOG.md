@@ -401,7 +401,7 @@ Bản quyền © 2025 Đặng Minh Hiếu. Giữ toàn quyền.
 
 ---
 
-**Cập nhật lần cuối**: 10 tháng 12, 2025
+**Cập nhật lần cuối**: 26 tháng 12, 2025
 
 ---
 
